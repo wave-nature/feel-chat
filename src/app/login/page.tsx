@@ -1,3 +1,7 @@
+import { loginAction } from "@/actions/authActions";
+import GoogleLogin from "@/components/auth/GoogleLogin";
+import SignInButton from "@/components/ui/SignInButton";
+
 function Page() {
   return (
     <main className="h-screen overflow-hidden flex items-center justify-center bg-slate-100">
@@ -11,7 +15,7 @@ function Page() {
                 </h6>
               </div>
               <div className="btn-wrapper text-center">
-                <button
+                {/* <button
                   className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                   type="button"
                 >
@@ -21,8 +25,8 @@ function Page() {
                     src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"
                   />
                   Github
-                </button>
-                <button
+                </button> */}
+                {/* <button
                   className="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
                   type="button"
                 >
@@ -32,15 +36,18 @@ function Page() {
                     src="https://demos.creative-tim.com/notus-js/assets/img/google.svg"
                   />
                   Google{" "}
-                </button>
+                </button> */}
               </div>
+
+              {/* google login */}
+              <GoogleLogin />
               <hr className="mt-6 border-b-1 border-blueGray-300" />
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
               <div className="text-blueGray-400 text-center mb-3 font-bold">
                 <small>Or sign in with credentials</small>
               </div>
-              <form>
+              <form action={loginAction}>
                 <div className="relative w-full mb-3">
                   <label
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -52,6 +59,7 @@ function Page() {
                     type="email"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Email"
+                    name="email"
                   />
                 </div>
                 <div className="relative w-full mb-3">
@@ -65,17 +73,11 @@ function Page() {
                     type="password"
                     className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="Password"
+                    name="password"
                   />
                 </div>
-                <div className="text-center mt-6">
-                  <button
-                    className=" bg-blue-600 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                    type="button"
-                  >
-                    {" "}
-                    Sign In{" "}
-                  </button>
-                </div>
+                {/* sign in button */}
+                <SignInButton />
               </form>
             </div>
           </div>

@@ -1,85 +1,77 @@
+"use client";
+
+import { useContext, useEffect, useState } from "react";
 import MySideChat from "./MySideChat";
 import OtherSideChat from "./OtherSideChat";
+import api from "@/utils/request";
+import { AuthContext } from "@/context/AuthProvider";
+import toast from "react-hot-toast";
 
 function Chats() {
+  const {
+    activeUser,
+    roomId,
+    loggedUser,
+    allRoomChats,
+    setAllRoomChats,
+    setTheActiveUser,
+  } = useContext(AuthContext);
+  useEffect(() => {
+    async function fetchMessages() {
+      if (roomId) {
+        const { data, error } = await api.getMessages(roomId);
+        if (error) toast.error(error.message);
+        setAllRoomChats(data);
+      }
+    }
+    fetchMessages();
+  }, [roomId, activeUser]);
+
+  useEffect(() => {
+    const chatContainer = document.querySelector("#chat-container");
+    chatContainer?.scrollTo({
+      top: chatContainer.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [allRoomChats.length, activeUser]);
+
   return (
-    <div className="flex flex-col h-full overflow-x-auto mb-4">
+    <div
+      id="chat-container"
+      className="flex flex-col h-full overflow-x-auto mb-4"
+    >
       <div className="flex flex-col h-full">
-        <div className="grid grid-cols-12 gap-y-2">
-          <OtherSideChat />
-          <OtherSideChat />
-          <MySideChat />
-          <OtherSideChat />
+        <div className="grid grid-cols-12 gap-y-2 relative py-12">
+          {/* erase mode */}
 
-          <MySideChat />
-          <MySideChat />
-
-          <div className="col-start-1 col-end-8 p-3 rounded-lg">
-            <div className="flex flex-row items-center">
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
-                A
-              </div>
-              <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                <div className="flex flex-row items-center">
-                  <button className="flex items-center justify-center bg-indigo-600 hover:bg-indigo-800 rounded-full h-8 w-10">
-                    <svg
-                      className="w-6 h-6 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </button>
-                  <div className="flex flex-row items-center space-x-px ml-4">
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-4 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-10 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-10 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-12 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-10 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-6 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-5 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-4 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-3 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-10 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-10 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-1 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-1 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-8 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-2 w-1 bg-gray-500 rounded-lg" />
-                    <div className="h-4 w-1 bg-gray-500 rounded-lg" />
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className=" bg-yellow-100 text-gray-900 fixed sm:w-[78%] w-[82%] z-10 rounded-lg px-2 py-2 text-sm text-center flex items-center gap-5 justify-center">
+            <button
+              className="sm:hidden block bg-green-500 p-2 rounded-md"
+              onClick={() => setTheActiveUser(loggedUser)}
+            >
+              Back
+            </button>
+            <h5 className="text-center">
+              By default your chats will disappear every 4 hours 😎
+            </h5>
           </div>
+
+          {/* {myChats.map((chat: any) => (
+            <MySideChat key={chat.id} chat={chat} />
+          ))}
+          {otherChats.map((chat: any) => (
+            <OtherSideChat key={chat.id} chat={chat} />
+          ))} */}
+
+          {allRoomChats.map((chat: any) =>
+            chat?.to?.id === activeUser?.id &&
+            chat?.from?.id === loggedUser?.id ? (
+              <MySideChat key={chat?.id} chat={chat} />
+            ) : chat?.to?.id === loggedUser?.id &&
+              chat?.from?.id === activeUser?.id ? (
+              <OtherSideChat key={chat?.id} chat={chat} />
+            ) : null
+          )}
         </div>
       </div>
     </div>

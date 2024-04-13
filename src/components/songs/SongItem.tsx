@@ -7,11 +7,13 @@ function SongItem({
   id,
   currentSong,
   setCurrentSong,
+  saveTimestamp,
 }: {
   song: any;
   id: string;
   currentSong: any;
   setCurrentSong: (song: any) => void;
+  saveTimestamp: (t: number) => void;
 }) {
   const [playing, setPlaying] = useState(false);
   const [parentPlaying, setParentPlaying] = useState(false);
@@ -86,9 +88,10 @@ function SongItem({
         >
           <AudioPlayer
             src={stream}
-            autoPlay={parentPlaying || playing}
+            autoPlay={playing}
             onPlay={(e) => setPlaying(true)}
             onPause={(e) => setPlaying(false)}
+            onSeeked={(e: any) => saveTimestamp(e.target?.currentTime)}
             showJumpControls={false}
             loop={true}
             layout="stacked"

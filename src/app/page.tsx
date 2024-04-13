@@ -1,5 +1,3 @@
-"use client";
-
 import Sidebar from "@/components/ui/Sidebar";
 import Chats from "@/components/chat/Chats";
 import SendMessage from "@/components/chat/SendMessage";
