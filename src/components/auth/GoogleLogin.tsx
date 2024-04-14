@@ -8,6 +8,7 @@ import { BASE_URL } from "@/utils/env";
 const supabase = createClient();
 
 function GoogleLogin() {
+  // console.log(BASE_URL);
   return (
     <Auth
       supabaseClient={supabase}
