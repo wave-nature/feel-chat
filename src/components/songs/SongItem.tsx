@@ -25,7 +25,19 @@ function SongItem({
         song.name === currentSong?.name ? "border border-purple-500" : ""
       } overflow-hidden`}
     >
-      <a href="#" className="block p-2 hover:bg-gray-100 group">
+      <a
+        href="#"
+        className="block p-2 hover:bg-gray-100 group"
+        onClick={(e: any) => {
+          if (
+            e.target.parentNode.id === "play-pause" ||
+            e.target.id === "play-pause"
+          )
+            return;
+          setParentPlaying(true);
+          setCurrentSong(song);
+        }}
+      >
         <div className="flex items-center">
           <img
             src={song?.thumbnails[0]?.url || "https://via.placeholder.com/150"}
@@ -33,7 +45,7 @@ function SongItem({
             className="h-8 w-8 rounded-full"
           />
           <div className="ms-4">{song?.name}</div>
-          <div className=" ms-auto">
+          <div className=" ms-auto" id="play-pause">
             {!parentPlaying ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,21 +72,22 @@ function SongItem({
               </svg>
             ) : (
               <svg
+                className="w-5 h-5 bg-red-500 rounded-full p-1 cursor-pointer"
+                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
+                viewBox="0 0 14 14"
                 onClick={() => {
                   setParentPlaying(false);
                   setCurrentSong(null);
                 }}
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.25 9v6m-4.5 0V9M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                 />
               </svg>
             )}

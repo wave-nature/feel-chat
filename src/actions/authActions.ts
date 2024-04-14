@@ -17,7 +17,7 @@ export async function loginAction(formData: FormData) {
         email,
         password,
         options: {
-          emailRedirectTo: "http://localhost:3000",
+          emailRedirectTo: "/",
         },
       });
 

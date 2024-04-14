@@ -4,6 +4,7 @@ import { use, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import SidebarUsers from "../users/SidebarUsers";
 import { AuthContext } from "@/context/AuthProvider";
+import toast from "react-hot-toast";
 
 const supabase = createClient();
 
@@ -14,6 +15,7 @@ function Sidebar() {
 
   useEffect(() => {
     setMounted(true);
+    toast.dismiss();
   }, []);
 
   useEffect(() => {

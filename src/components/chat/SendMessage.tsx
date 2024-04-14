@@ -62,7 +62,6 @@ function SendMessage() {
 
   const stopCamera = () => {
     if (stream) {
-      console.log("Stopping camera");
       const tracks = stream.getTracks();
       tracks.forEach((track: any) => track.stop());
       setStream(null); // Clear the stream state
@@ -185,14 +184,14 @@ function SendMessage() {
 
   return (
     <form
-      className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4 relative"
+      className="flex flex-row items-center h-16 rounded-xl bg-white w-full sm:px-4 px-2 relative"
       onSubmit={sendMessage}
     >
-      <div className="flex-grow ml-4">
+      <div className="flex-grow sm:ml-4">
         <div className="relative w-full">
           <input
             type="text"
-            className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
+            className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
             onChange={(e) => {
               if (feelMode) {
                 if (feelTab === "songs") {
@@ -239,8 +238,11 @@ function SendMessage() {
       <div className="ml-4 flex items-center">
         {/* feel chat */}
         <label className="flex items-center me-5 cursor-pointer">
-          <span className="me-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+          <span className="sm:me-3 text-sm font-medium text-gray-900 dark:text-gray-300 hidden sm:block">
             {feelMode ? "Feel Mode 😎" : "Normal Mode 😏"}
+          </span>
+          <span className="sm:me-3 text-sm font-medium text-gray-900 dark:text-gray-300 block sm:hidden">
+            {feelMode ? "😎" : "😏"}
           </span>
           <input
             type="checkbox"
@@ -255,10 +257,10 @@ function SendMessage() {
         </label>
 
         <button
-          className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+          className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white sm:px-4 px-2 sm:py-1 py-2 flex-shrink-0"
           type="submit"
         >
-          <span>Send</span>
+          <span className="hidden sm:block">Send</span>
           <span className="ml-2">
             <svg
               className="w-4 h-4 transform rotate-45 -mt-px"
@@ -280,7 +282,7 @@ function SendMessage() {
 
       {/* feel mode options */}
       {feelMode && (
-        <div className="absolute right-0 bottom-24 w-[30rem]">
+        <div className="absolute right-0 bottom-24 sm:w-[30rem] w-[25rem]">
           <div className="max-w-lg bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-auto w-full overflow-y-scroll">
             <div className="text-sm w-full font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 relative h-full">
               <ul className="flex -mb-px sticky top-0 bg-white z-10 shadow-sm">

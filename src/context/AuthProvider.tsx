@@ -64,10 +64,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
   // subscribe to chat changes
   supabase
-    .channel("custom-all-channel")
+    .channel("custom-insert-channel")
     .on(
       "postgres_changes",
-      { event: "*", schema: "public", table: "chats" },
+      { event: "INSERT", schema: "public", table: "chats" },
       (payload) => {
         setAllRoomChats([...allRoomChats, payload.new]);
       }

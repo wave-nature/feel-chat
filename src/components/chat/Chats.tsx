@@ -44,7 +44,7 @@ function Chats() {
         <div className="grid grid-cols-12 gap-y-2 relative py-12">
           {/* erase mode */}
 
-          <div className=" bg-yellow-100 text-gray-900 fixed sm:w-[78%] w-[82%] z-10 rounded-lg px-2 py-2 text-sm text-center flex items-center gap-5 justify-center">
+          <div className=" bg-yellow-100 text-gray-900 fixed sm:w-[78%] w-[100%] z-10 rounded-lg px-2 py-2 text-sm text-center flex items-center gap-5 justify-center">
             <button
               className="sm:hidden block bg-green-500 p-2 rounded-md"
               onClick={() => setTheActiveUser(loggedUser)}

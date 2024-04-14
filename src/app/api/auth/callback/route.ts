@@ -2,6 +2,8 @@ import { createSupabaseServerClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export async function GET(request: Request) {
+  const newURL = new URL(request.url);
+  const redirectUrl = `${newURL.protocol}//${newURL.host}/room`;
   try {
     const supabase = createSupabaseServerClient();
     const url = request.url;
@@ -9,12 +11,12 @@ export async function GET(request: Request) {
 
     if (code) {
       await supabase.auth.exchangeCodeForSession(String(code));
-      return Response.redirect("http://localhost:3000/room"); // Use relative path for internal redirects
+      return Response.redirect(redirectUrl); // Use relative path for internal redirects
     } else {
-      return Response.redirect("http://localhost:3000/room"); // Use relative path for internal redirects
+      return Response.redirect(redirectUrl); // Use relative path for internal redirects
     }
   } catch (error) {
     console.log("error", error);
-    return Response.redirect("http://localhost:3000/room"); // Use relative path for internal redirects
+    return Response.redirect(redirectUrl); // Use relative path for internal redirects
   }
 }

@@ -7,6 +7,12 @@ import { createClient } from "@/utils/supabase/client";
 const supabase = createClient();
 
 function GoogleLogin() {
+  let url = "http://locahost:3000";
+  if (typeof window !== "undefined") {
+    url = window.location.href.includes("localhost")
+      ? "http://localhost:3000"
+      : "https://feelchat.vercel.app";
+  }
   return (
     <Auth
       supabaseClient={supabase}
@@ -16,7 +22,7 @@ function GoogleLogin() {
           button: "auth-social-button",
         },
       }}
-      redirectTo={"http://localhost:3000/api/auth/callback"}
+      redirectTo={`${url}/api/auth/callback`}
       socialLayout="horizontal"
       providers={["google"]}
       onlyThirdPartyProviders
