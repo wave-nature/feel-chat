@@ -3,23 +3,11 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect, useState } from "react";
+import { BASE_URL } from "@/utils/env";
 
 const supabase = createClient();
 
 function GoogleLogin() {
-  const [url, setUrl] = useState("https://feelchat.vercel.app");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUrl(
-        window.location.href.includes("localhost")
-          ? "http://localhost:3000"
-          : "https://feelchat.vercel.app"
-      );
-    }
-  }, []);
-
   return (
     <Auth
       supabaseClient={supabase}
@@ -29,7 +17,7 @@ function GoogleLogin() {
           button: "auth-social-button",
         },
       }}
-      redirectTo={`${url}/api/auth/callback`}
+      redirectTo={`${BASE_URL}/api/auth/callback`}
       socialLayout="horizontal"
       providers={["google"]}
       onlyThirdPartyProviders
