@@ -8,7 +8,7 @@ import { getRedirectURL } from "@/utils/env";
 const supabase = createClient();
 
 function GoogleLogin() {
-  console.log(getRedirectURL(), "url");
+  // console.log(getRedirectURL(), "url");
   return (
     <Auth
       supabaseClient={supabase}

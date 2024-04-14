@@ -104,7 +104,7 @@ function ActiveSidebarUser({ user, roomId }: any) {
           <RWebShare
             data={{
               text: roomId,
-              url: "https://feelchat.vercel.app",
+              url: "https://feel-chat.vercel.app",
               title: "FeelChat Room",
             }}
           >
