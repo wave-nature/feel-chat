@@ -3,12 +3,12 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { createClient } from "@/utils/supabase/client";
-import { BASE_URL } from "@/utils/env";
+import { getRedirectURL } from "@/utils/env";
 
 const supabase = createClient();
 
 function GoogleLogin() {
-  // console.log(BASE_URL);
+  console.log(getRedirectURL(), "url");
   return (
     <Auth
       supabaseClient={supabase}
@@ -18,7 +18,7 @@ function GoogleLogin() {
           button: "auth-social-button",
         },
       }}
-      redirectTo={`${BASE_URL}/api/auth/callback`}
+      redirectTo={getRedirectURL()}
       socialLayout="horizontal"
       providers={["google"]}
       onlyThirdPartyProviders
