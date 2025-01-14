@@ -12,17 +12,9 @@ export async function POST(request: Request) {
 
   songs = songs.filter((song: any) => song?.videoId);
 
-  const songsWithMusic = await Promise.all(
-    songs.map(async (song: any) => {
-      const videoInfo = await ytdl.getInfo(song?.videoId);
-      const audioFormats = ytdl.filterFormats(videoInfo.formats, "audioonly");
-      const streams = audioFormats.map((format) => format.url);
-      return { ...song, streams };
-    })
-  );
 
   return Response.json({
     status: true,
-    songs: songsWithMusic,
+    songs: songs,
   });
 }

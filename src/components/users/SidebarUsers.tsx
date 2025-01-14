@@ -17,10 +17,12 @@ function SidebarUsers({ users }: any) {
   }
 
   useEffect(() => {
-    if (loggedUser) {
-      setTheActiveUser(loggedUser);
+    if (loggedUser && users?.length) {
+      const otherUsers = users.filter((user: any) => user.id !== loggedUser.id);
+      if (otherUsers.length > 0) setTheActiveUser(otherUsers[0]);
+      else setTheActiveUser(loggedUser);
     }
-  }, [loggedUser]);
+  }, [users?.length, loggedUser]);
 
   return (
     <>
@@ -33,7 +35,7 @@ function SidebarUsers({ users }: any) {
             {users?.length}
           </span>
         </div>
-        <div className="flex flex-col space-y-1 mt-4 -mx-2 h-80 overflow-y-auto">
+        <div className="flex flex-col space-y-1 mt-4 -mx-2 sm:h-80 h-72 overflow-y-auto">
           {users && Array.isArray(users)
             ? users.map((user: any) => (
                 <SidebarUser
@@ -46,7 +48,7 @@ function SidebarUsers({ users }: any) {
               ))
             : "No active users"}
         </div>
-        <div className="flex flex-row items-center mt-3 justify-center">
+        <div className="flex justify-start w-full">
           <LogoutButton />
         </div>
       </div>

@@ -1,7 +1,5 @@
 "use client";
 
-import auth from "@/hooks/auth";
-
 function SidbarUser({
   user,
   activeUser,
@@ -17,16 +15,18 @@ function SidbarUser({
 
   return (
     <button
-      className={`flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 my-2 ${
-        loggedUser?.id === user?.id
-          ? "order-1 bg-blue-400 hover:bg-blue-400 "
-          : "order-2"
-      } ${
-        activeUser?.id === user?.id && loggedUser?.id !== user?.id
-          ? "bg-green-200"
-          : ""
-      }`}
-      onClick={() => setCurrentActiveUser(user)}
+      className={`flex flex-row items-center hover:bg-green-200 rounded-xl p-2 my-2 ${
+        loggedUser?.id === user?.id ? "order-1" : "order-2"
+      } ${activeUser?.id === user?.id ? "bg-green-300" : ""}`}
+      onClick={() => {
+        if (window.innerWidth < 640) {
+          setTimeout(() => {
+            setCurrentActiveUser(user);
+          }, 700);
+        } else {
+          setCurrentActiveUser(user);
+        }
+      }}
     >
       <div className="flex items-center justify-center h-8 w-8 bg-gray-200 rounded-full">
         {user?.email?.[0]}

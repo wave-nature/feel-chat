@@ -1,24 +1,41 @@
 import { useEffect, useState } from "react";
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
+import YouTube from "react-youtube";
 
 function SongItem({
   song,
   id,
   currentSong,
+  playersMap,
   setCurrentSong,
   saveTimestamp,
+  setPlayersMap,
 }: {
   song: any;
   id: string;
   currentSong: any;
+  playersMap: any;
   setCurrentSong: (song: any) => void;
   saveTimestamp: (t: number) => void;
+  setPlayersMap: (type: string, key?: string, value?: any) => void;
 }) {
   const [playing, setPlaying] = useState(false);
   const [parentPlaying, setParentPlaying] = useState(false);
+  const [player, setPlayer] = useState<any>();
 
-  const stream = song?.streams[0];
+  const handleReady = function (e: any, songId: string) {
+    setPlayer(e.target);
+    setPlayersMap("add", songId, e.target);
+  };
+
+  const handleSeek = (event: any) => {
+    const currentTime = event.target.getCurrentTime(); // Get current time
+    saveTimestamp(currentTime);
+  };
+
+  useEffect(() => {
+    return () => setPlayersMap("clear");
+  }, []);
+
   return (
     <li
       className={` bg-gray-100 rounded-md m-1 ${
@@ -34,8 +51,19 @@ function SongItem({
             e.target.id === "play-pause"
           )
             return;
+
+          if (!playersMap.size) return;
+
+          // play on tap
           setParentPlaying(true);
           setCurrentSong(song);
+          playersMap.forEach((value: any, key: string) => {
+            value.pauseVideo();
+          });
+          const player = playersMap.get(song.videoId);
+          setTimeout(() => {
+            player.playVideo();
+          }, 5);
         }}
       >
         <div className="flex items-center">
@@ -55,6 +83,16 @@ function SongItem({
                 stroke="currentColor"
                 className="w-6 h-6"
                 onClick={() => {
+                  if (!playersMap.size) return;
+
+                  playersMap.forEach((value: any, key: string) => {
+                    value.pauseVideo();
+                  });
+                  const player = playersMap.get(song.videoId);
+                  setTimeout(() => {
+                    player.playVideo();
+                  }, 5);
+                  setCurrentSong(song);
                   setParentPlaying(true);
                   setCurrentSong(song);
                 }}
@@ -72,14 +110,19 @@ function SongItem({
               </svg>
             ) : (
               <svg
-                className="w-5 h-5 bg-red-500 rounded-full p-1 cursor-pointer"
+                className="w-5 h-5 bg-red-500 text-white rounded-full p-1 cursor-pointer"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 14 14"
                 onClick={() => {
+                  if (!playersMap.size) return;
+
                   setParentPlaying(false);
                   setCurrentSong(null);
+                  playersMap.forEach((value: any, key: string) => {
+                    value.pauseVideo();
+                  });
                 }}
               >
                 <path
@@ -95,23 +138,45 @@ function SongItem({
         </div>
       </a>
       {/* audio player */}
-      {stream && (
+      {song.videoId && (
         <div
           className={`${parentPlaying ? "block" : "hidden"} overflow-hidden`}
         >
-          <AudioPlayer
-            src={stream}
-            autoPlay={playing}
-            onPlay={(e) => setPlaying(true)}
-            onPause={(e) => setPlaying(false)}
-            onSeeked={(e: any) => saveTimestamp(e.target?.currentTime)}
-            showJumpControls={false}
-            loop={true}
-            layout="stacked"
-            footer="slide seek to select 10s duration"
-            style={{ backgroundColor: "#f3f4f6", overflow: "hidden" }}
+          <YouTube
+            videoId={song.videoId} // defaults -> ''
+            id={song.videoId} // defaults -> ''
+            title={song?.name} // defaults -> ''
+            style={{ width: "100%" }}
+            opt={{
+              playerVars: {
+                // https://developers.google.com/youtube/player_parameters
+                autoplay: 1,
+              },
+            }}
+            onReady={(e: any) => handleReady(e, song?.videoId)} //
+            onPlay={(e: any) => {
+              if (!playersMap.size) return;
 
-            // other props here
+              playersMap.forEach((value: any, key: string) => {
+                if (key !== e.target.options?.videoId) {
+                  value.pauseVideo();
+                }
+              });
+
+              setCurrentSong(song);
+            }}
+            onStateChange={(event: any) => {
+              if (event.data === YouTube.PlayerState.PLAYING) {
+                // Listen for seeking
+                event.target.addEventListener("onStateChange", handleSeek);
+              } else if (
+                event.data === YouTube.PlayerState.PAUSED ||
+                event.data === YouTube.PlayerState.ENDED
+              ) {
+                // Remove listener on pause or end
+                event.target.removeEventListener("onStateChange", handleSeek);
+              }
+            }}
           />
         </div>
       )}

@@ -16,8 +16,8 @@ function ActiveSidebarUser({ user, roomId }: any) {
   }, [copied]);
 
   return (
-    <div className="flex flex-col items-center bg-indigo-100 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
-      <div className="h-20 w-20 rounded-full border overflow-hidden">
+    <div className="flex flex-col items-center bg-orange-300 border border-gray-200 mt-4 w-full py-6 px-4 rounded-lg">
+      <div className="sm:h-24 sm:w-24 w-12 h-12 rounded-full border border-orange-200 overflow-hidden flex items-center">
         {/* <img
           src="https://avatars3.githubusercontent.com/u/2763884?s=128"
           alt="Avatar"
@@ -29,7 +29,7 @@ function ActiveSidebarUser({ user, roomId }: any) {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="h-full w-full"
+          className="sm:h-2/3 sm:w-2/3 w-1/2 h-1/2 mx-auto"
         >
           <path
             strokeLinecap="round"
@@ -57,7 +57,7 @@ function ActiveSidebarUser({ user, roomId }: any) {
       </div>
 
       <div className="text-xs text-gray-500 mt-3 flex flex-col items-center">
-        <div className=" font-bold">ROOM</div>{" "}
+        <div className=" font-bold">Your Space</div>{" "}
         <div className=" flex items-center gap-1">
           <span className="bg-green-600 rounded-md px-2 py-1 text-white ">
             {copied ? "Copied" : roomId}

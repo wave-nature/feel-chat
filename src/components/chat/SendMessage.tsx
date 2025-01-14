@@ -5,10 +5,10 @@ import toast from "react-hot-toast";
 import EmojiPicker from "emoji-picker-react";
 
 import { AuthContext } from "@/context/AuthProvider";
-import SkeletonLoader from "../loader/Skeleton";
-import SongItem from "../songs/SongItem";
 import api from "@/utils/request";
 import { Message } from "@/types/message";
+import SkeletonLoader from "../loader/Skeleton";
+import SongItem from "../songs/SongItem";
 
 const disableStyle =
   "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 border-b-2 border-transparent rounded-t-lg";
@@ -16,8 +16,7 @@ const activeStyle =
   "text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500";
 
 function SendMessage() {
-  const { loggedUser, activeUser, roomId, setAllRoomChats, allRoomChats } =
-    useContext(AuthContext);
+  const { loggedUser, activeUser, roomId } = useContext(AuthContext);
   const [feelMode, setFeelMode] = useState(false);
   const [feelTab, setFeelTab] = useState("songs");
   const [song, setSong] = useState("Never gonna give you up");
@@ -33,6 +32,7 @@ function SendMessage() {
   const canvasRef = useRef<any>(null);
   const [imageDataUrl, setImageDataUrl] = useState(null);
   const [stream, setStream] = useState<any>(null);
+  const [playersMap, setPlayersMap] = useState(new Map());
 
   useEffect(() => {
     if (feelTab === "camera") {
@@ -123,10 +123,14 @@ function SendMessage() {
           "Content-Type": "application/json",
         },
       });
+      if (!res.ok) {
+        return toast.error("Failed to fetch song");
+      }
 
       const data = await res.json();
       if (data.status) setSongs(data.songs);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoader(false);
     }
@@ -182,6 +186,16 @@ function SendMessage() {
     setShowEmoji(false);
   };
 
+  function addYTPlayers(type: string, key?: string, value?: any) {
+    if (type === "add") {
+      playersMap.set(key, value);
+      setPlayersMap(playersMap);
+    } else {
+      playersMap.clear();
+      setPlayersMap(playersMap);
+    }
+  }
+
   return (
     <form
       className="flex flex-row items-center h-16 rounded-xl bg-white w-full sm:px-4 px-2 relative"
@@ -193,17 +207,12 @@ function SendMessage() {
             type="text"
             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
             onChange={(e) => {
-              if (feelMode) {
-                if (feelTab === "songs") {
-                  setSong(e.target.value);
-                }
-              }
               setMessage(e.target.value);
             }}
             value={message}
           />
           <button
-            className="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
+            className="sm:flex absolute hidden items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
             type="button"
             role="button"
             onClick={() => setShowEmoji(!showEmoji)}
@@ -314,10 +323,18 @@ function SendMessage() {
               {feelTab === "songs" && (
                 <div className="">
                   <h6 className=" py-2 font-bold text-sm">Suggested Songs</h6>
+                  <input
+                    type="text"
+                    placeholder="Search for a song"
+                    className="flex w-4/5 mx-auto border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
+                    onChange={(e) => {
+                      setSong(e.target.value);
+                    }}
+                  />
                   {loader ? (
                     <SkeletonLoader />
                   ) : (
-                    <ul>
+                    <ul className="overflow-y-scroll h-[60vh]">
                       {songs.map((song) => (
                         <SongItem
                           key={song.name}
@@ -326,6 +343,8 @@ function SendMessage() {
                           currentSong={currentSong}
                           setCurrentSong={assignCurrentSong}
                           saveTimestamp={saveTimestamp}
+                          playersMap={playersMap}
+                          setPlayersMap={addYTPlayers}
                         />
                       ))}
                     </ul>

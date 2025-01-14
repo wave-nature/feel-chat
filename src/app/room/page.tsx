@@ -84,7 +84,7 @@ function Page() {
             <div className="rounded-t mb-0 px-6 py-6">
               <div className="text-center mb-3">
                 <h3 className="text-blueGray-500 text-lg font-bold">
-                  Let's enter the room
+                  Let's enter your private space.
                 </h3>
               </div>
 
@@ -99,7 +99,7 @@ function Page() {
                     className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                     htmlFor="grid-password"
                   >
-                    Enter Room Code
+                    Enter Private Space Code
                   </label>
                   <input
                     type="text"
@@ -116,7 +116,7 @@ function Page() {
                     type="submit"
                   >
                     {" "}
-                    Enter Room{" "}
+                    Enter Private Space{" "}
                   </button>
                 </div>
               </form>
@@ -134,7 +134,7 @@ function Page() {
                     type="submit"
                   >
                     {" "}
-                    Create New Room{" "}
+                    Create New Private Space{" "}
                   </button>
                 </div>
               </form>

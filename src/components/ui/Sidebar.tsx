@@ -42,9 +42,9 @@ function Sidebar() {
   return (
     <div
       className={
-        window?.innerWidth < 640 && loggedUser?.id !== activeUser?.id
+        window?.innerWidth < 640 && activeUser
           ? "hidden"
-          : "flex flex-col py-8 pl-6 pr-2 sm:w-64 w-full bg-white flex-shrink-0"
+          : "flex flex-col py-8 sm:pr-4 px-6 sm:w-72 w-full bg-white flex-shrink-0"
       }
     >
       <div className="flex flex-row items-center justify-center h-12 w-full">
