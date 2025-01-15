@@ -9,8 +9,8 @@ export default function Home() {
         <div className="flex flex-row h-full w-full overflow-x-hidden">
           {/* sidebar */}
           <Sidebar />
-          <div className="flex flex-col flex-auto h-full sm:p-6 p-0">
-            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full sm:p-4 p-2">
+          <div className="flex flex-col flex-auto h-full sm:p-6 p-0" id="chat">
+            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl h-full sm:p-4 p-2">
               {/* Chats */}
               <Chats />
 

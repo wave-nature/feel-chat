@@ -35,7 +35,7 @@ function SidebarUsers({ users }: any) {
             {users?.length}
           </span>
         </div>
-        <div className="flex flex-col space-y-1 mt-4 -mx-2 sm:h-80 h-72 overflow-y-auto">
+        <div className="flex flex-col space-y-1 mt-4 -mx-2 sm:h-80 min-h-[55vh] overflow-y-auto">
           {users && Array.isArray(users)
             ? users.map((user: any) => (
                 <SidebarUser
@@ -48,7 +48,7 @@ function SidebarUsers({ users }: any) {
               ))
             : "No active users"}
         </div>
-        <div className="flex justify-start w-full">
+        <div className="flex justify-center w-full">
           <LogoutButton />
         </div>
       </div>

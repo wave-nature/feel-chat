@@ -196,6 +196,32 @@ function SendMessage() {
     }
   }
 
+  function toggleTheme() {
+    const switchToggle = document.querySelector("#switch-toggle");
+
+    const happy = `😎`;
+
+    const sad = `😏`;
+
+    if (!switchToggle) return;
+
+    if (!feelMode) {
+      switchToggle.classList.remove("bg-gray-700", "-translate-x-0");
+      switchToggle.classList.add("bg-green-500", "translate-x-full");
+      setTimeout(() => {
+        switchToggle.textContent = happy;
+        setFeelMode(true);
+      }, 250);
+    } else {
+      switchToggle.classList.add("bg-gray-700", "-translate-x-0");
+      switchToggle.classList.remove("bg-green-500", "translate-x-full");
+      setTimeout(() => {
+        switchToggle.textContent = sad;
+        setFeelMode(false);
+      }, 250);
+    }
+  }
+
   return (
     <form
       className="flex flex-row items-center h-16 rounded-xl bg-white w-full sm:px-4 px-2 relative"
@@ -205,6 +231,7 @@ function SendMessage() {
         <div className="relative w-full">
           <input
             type="text"
+            placeholder="Type a message"
             className="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
             onChange={(e) => {
               setMessage(e.target.value);
@@ -246,24 +273,22 @@ function SendMessage() {
       </div>
       <div className="ml-4 flex items-center">
         {/* feel chat */}
-        <label className="flex items-center me-5 cursor-pointer">
-          <span className="sm:me-3 text-sm font-medium text-gray-900 dark:text-gray-300 hidden sm:block">
-            {feelMode ? "Feel Mode 😎" : "Normal Mode 😏"}
-          </span>
-          <span className="sm:me-3 text-sm font-medium text-gray-900 dark:text-gray-300 block sm:hidden">
-            {feelMode ? "😎" : "😏"}
-          </span>
-          <input
-            type="checkbox"
-            checked={feelMode}
-            className="sr-only peer"
-            onChange={() => {
-              setFeelMode(!feelMode);
-              setShowEmoji(false);
-            }}
-          />
-          <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-purple-300 dark:peer-focus:ring-purple-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-purple-600" />
-        </label>
+        <span className="sm:me-3 text-sm font-medium text-gray-900 dark:text-gray-300 hidden sm:block">
+          {feelMode ? "Feel" : "Normal"}
+        </span>
+        <button
+          className="w-16 h-8 rounded-full bg-gray-300 flex items-center transition duration-300 focus:outline-none shadow mr-2"
+          type="button"
+          role="button"
+          onClick={toggleTheme}
+        >
+          <div
+            id="switch-toggle"
+            className="flex items-center justify-center w-8 h-8 relative rounded-full transition duration-500 transform bg-gray-700 -translate-x-0 p-1 text-white"
+          >
+            😏
+          </div>
+        </button>
 
         <button
           className="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white sm:px-4 px-2 sm:py-1 py-2 flex-shrink-0"
@@ -326,7 +351,7 @@ function SendMessage() {
                   <input
                     type="text"
                     placeholder="Search for a song"
-                    className="flex w-4/5 mx-auto border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
+                    className="flex w-4/5 mx-auto mb-2 border rounded-xl focus:outline-none focus:border-indigo-300 sm:pl-4 pl-2 h-10"
                     onChange={(e) => {
                       setSong(e.target.value);
                     }}

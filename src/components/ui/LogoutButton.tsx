@@ -48,7 +48,7 @@ function LogoutButton() {
 
   return (
     <button
-      className="leading-none ml-1 text-sm bg-red-600 text-white px-2 py-2 rounded-md w-full"
+      className="leading-none ml-1 text-sm bg-red-600 text-white px-2 py-3 rounded-md w-4/5"
       onClick={logoutHandler}
     >
       Logout &rarr;

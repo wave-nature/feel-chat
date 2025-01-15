@@ -18,7 +18,6 @@ function SongItem({
   saveTimestamp: (t: number) => void;
   setPlayersMap: (type: string, key?: string, value?: any) => void;
 }) {
-  const [playing, setPlaying] = useState(false);
   const [parentPlaying, setParentPlaying] = useState(false);
   const [player, setPlayer] = useState<any>();
 
@@ -38,7 +37,7 @@ function SongItem({
 
   return (
     <li
-      className={` bg-gray-100 rounded-md m-1 ${
+      className={`bg-gray-100 rounded-md mx-4 my-2 py-2 ${
         song.name === currentSong?.name ? "border border-purple-500" : ""
       } overflow-hidden`}
     >

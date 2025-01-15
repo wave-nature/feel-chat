@@ -41,17 +41,16 @@ function Chats() {
       className="flex flex-col h-full overflow-x-auto mb-4"
     >
       <div className="flex flex-col h-full">
-        <div className="grid grid-cols-12 gap-y-2 relative py-12">
+        <div className="grid grid-cols-12 gap-y-2 relative pt-20 pb-12">
           {/* erase mode */}
-
-          <div className=" bg-yellow-100 text-gray-900 fixed sm:w-[78%] max-w-[100%] z-10 rounded-lg px-2 py-2 text-sm text-center flex items-center gap-5 justify-center">
+          <div className=" bg-yellow-100 text-gray-900 fixed min-w-full z-10 rounded-lg px-2 py-2 text-sm text-center flex items-center gap-5 justify-center">
             <button
-              className="sm:hidden block bg-green-500 p-2 rounded-md"
+              className="sm:hidden block text-white bg-gray-800 py-0.5 px-2 rounded-md text-[12px] relative -left-8 top-0"
               onClick={() => setTheActiveUser(null)}
             >
               Back
             </button>
-            <h5 className="text-center">
+            <h5 className="text-center text-[10px]">
               By default your chats will disappear every 4 hours 😎
             </h5>
           </div>
